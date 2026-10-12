@@ -171,7 +171,7 @@
   .media.wide.r452 { aspect-ratio: 708 / 452; }
   .media.wide.r398 { aspect-ratio: 708 / 398; }
   .media.embed { background: #ebebe9; clip-path: inset(0 round calc(var(--col) * 0.2057)); }
-  .media.embed iframe { position: absolute; top: 0; left: 0; border: 0; background: #fff; transform-origin: 0 0; }
+  .media.embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #fff; }
   .media.embed-fallback { display: block; }
   .embed-cta {
     position: absolute; left: 50%; bottom: 7%; transform: translateX(-50%);
@@ -436,23 +436,6 @@
         </aside>
         <div class="media-grid">${media}</div>
       </div>`;
-    app.querySelectorAll(".media.embed").forEach(fitEmbed);
-  }
-
-  // Render the framed site at a real viewport width, then scale it down to fit the panel.
-  function fitEmbed(box) {
-    const frame = box.querySelector("iframe");
-    const fit = () => {
-      const w = box.clientWidth, h = box.clientHeight;
-      if (!w) return;
-      const vw = w < 520 ? 390 : 1440;
-      const s = w / vw;
-      frame.style.width = vw + "px";
-      frame.style.height = Math.ceil(h / s) + "px";
-      frame.style.transform = `scale(${s})`;
-    };
-    fit();
-    new ResizeObserver(fit).observe(box);
   }
 
   function route() {
