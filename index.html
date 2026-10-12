@@ -174,6 +174,8 @@
   .media.wide.r398 { aspect-ratio: 708 / 398; }
   .media.embed { background: #ebebe9; clip-path: inset(0 round calc(var(--col) * 0.2057)); }
   .media.embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #fff; }
+  /* Player placement taken from the Keter frame in Figma: 647×363 at (31, 58) inside 708×480 */
+  .media.embed.video iframe { inset: auto; left: 4.394%; top: 12.14%; width: 91.4%; height: 75.71%; background: #000; }
   .media.embed-fallback { display: block; }
   .embed-cta {
     position: absolute; left: 50%; bottom: 7%; transform: translateX(-50%);
@@ -196,7 +198,7 @@
     .info { position: static; }
   }
   @media (max-width: 640px) {
-    .media.wide.embed { aspect-ratio: 3 / 4; }
+    .media.wide.embed:not(.video) { aspect-ratio: 3 / 4; }
   }
   @media (max-width: 640px) {
     :root { --hero: 48px; }
@@ -335,7 +337,7 @@
       year: "2026",
       description: null,
       media: [
-        { src: "img/keter-01.webp", wide: "r480", alt: "Keter Club film" },
+        { embed: "https://player.vimeo.com/video/848519919?title=0&byline=0&portrait=0&dnt=1", video: true, fallback: "img/keter-01.webp", wide: "r480", alt: "Keter Club film" },
         { src: "img/keter-02.webp", alt: "Stacked plastic chairs with the Keter Club logo" },
         { src: "img/keter-03.webp", alt: "Archive film still" },
         { src: "img/keter-04.webp", wide: "r452", alt: "End credits over a white chair" }
@@ -396,8 +398,8 @@
     const next = ORDER[(ORDER.indexOf(key) + 1) % ORDER.length];
     const media = p.media.map((m, i) => {
       const cls = `media${m.wide ? " wide " + m.wide : ""}`;
-      if (m.embed && CAN_EMBED) return `<div class="${cls} embed"><iframe src="${m.embed}" title="${esc(m.alt)}" referrerpolicy="no-referrer"></iframe></div>`;
-      if (m.embed) return `<a class="${cls} embed-fallback" href="${m.embed}" target="_blank" rel="noopener"><img src="${m.fallback}" alt="${esc(m.alt)}" width="700" height="904"><span class="embed-cta">Open live site ↗</span></a>`;
+      if (m.embed && CAN_EMBED) return `<div class="${cls} embed${m.video ? " video" : ""}"><iframe src="${m.embed}" title="${esc(m.alt)}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen referrerpolicy="${m.video ? "strict-origin-when-cross-origin" : "no-referrer"}"></iframe></div>`;
+      if (m.embed) return `<a class="${cls} embed-fallback" href="${m.embed}" target="_blank" rel="noopener"><img src="${m.fallback}" alt="${esc(m.alt)}" width="1416" height="960"><span class="embed-cta">${m.video ? "Watch on Vimeo" : "Open live site"} ↗</span></a>`;
       if (!m.src) return `<div class="${cls}" aria-hidden="true"></div>`;
       const w = m.wide ? 1416 : 700;
       return `<figure class="${cls}" style="margin:0"><img src="${m.src}" alt="${esc(m.alt)}" width="${w}" height="904" loading="${i < 3 ? "eager" : "lazy"}" decoding="async"></figure>`;
