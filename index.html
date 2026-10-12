@@ -293,7 +293,6 @@
       categories: "Branding, Visual identity",
       year: "2026",
       description: "I was part of the team that built the Base44 brand, working mainly on the process of creating its icons.",
-      credits: [["Creative Direction", null], ["Visual Production", null]],
       media: [
         { src: "img/base44-01.webp", wide: "r480", alt: "Base44 logo" },
         { src: "img/base44-02.webp", alt: "Logo construction grid" },
@@ -311,7 +310,6 @@
       year: "2026",
       link: "https://base44-new-hp-edge-pr-28949.base44.workers.dev/careers",
       description: "I designed the Base44 careers site, including its interactions. The site was also built with the help of Claude Code.",
-      credits: [["Creative Direction", null], ["Visual Production", null]],
       media: [
         { src: null, wide: "r480", alt: "" }
       ]
@@ -322,7 +320,6 @@
       categories: "Event, Visual identity",
       year: "2026",
       description: null,
-      credits: [["Creative Direction", null], ["Visual Production", null]],
       media: [
         { src: "img/beshushu-01.webp", wide: "r480", alt: "Beshushu Decades ribbons" },
         { src: "img/beshushu-02.webp", alt: "Poster being hung on a wall" },
@@ -337,7 +334,6 @@
       categories: "Video, Art direction",
       year: "2026",
       description: null,
-      credits: [["Creative Direction", null], ["Visual Production", null]],
       media: [
         { src: "img/keter-01.webp", wide: "r480", alt: "Keter Club film" },
         { src: "img/keter-02.webp", alt: "Stacked plastic chairs with the Keter Club logo" },
@@ -351,7 +347,6 @@
       categories: "Campaign, Event",
       year: "2026",
       description: "I built the visual language for Pride Month at Wix and created a wide range of assets, from screens and merchandise to communications for events on campus.",
-      credits: [["Creative Direction", null], ["Visual Production", null]],
       media: [
         { src: "img/pride-01.webp", wide: "r480", alt: "Pride Month key visual, 25 May to 25 June" },
         { src: "img/pride-02.webp", alt: "Dana International poster on a column" },
@@ -407,7 +402,6 @@
       const w = m.wide ? 1416 : 700;
       return `<figure class="${cls}" style="margin:0"><img src="${m.src}" alt="${esc(m.alt)}" width="${w}" height="904" loading="${i < 3 ? "eager" : "lazy"}" decoding="async"></figure>`;
     }).join("");
-    const credits = p.credits.map(([k, v]) => `<div class="row"><span>${esc(k)}:</span><span>${val(v)}</span></div>`).join("");
     app.innerHTML = `
       <div class="view project">
         <aside class="info">
@@ -428,11 +422,6 @@
               <span class="label">Description</span>
               <div class="divider"></div>
               <p>${p.description == null ? '<span class="todo">Project description goes here. Describe the brief, your role, and the final outcome in two or three sentences.</span>' : esc(p.description)}</p>
-            </section>
-            <section>
-              <span class="label">Credits</span>
-              <div class="divider"></div>
-              <div class="rows">${credits}</div>
             </section>
           </div>
           <a class="pill back next" href="#${next}"><span>Next: ${esc(PROJECTS[next].title)}</span><img class="chev-left" src="img/chevron-2.svg" alt="" width="8" height="10" style="transform:rotate(180deg)"></a>
