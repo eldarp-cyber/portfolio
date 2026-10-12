@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Eldar Partush, visual designer. Selected work in branding, campaigns, events and motion.">
+<title>Eldar Partush</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap">
+<style>
+  /* Layout: 8px gutter, three equal header pills, a 4-column tile grid; project pages split 50/50 into a sticky info column and a media grid built on the same column width. */
+  :root {
+    --bg: #ffffff;
+    --pill: #f5f5f5;
+    --tile: #e6e6e6;
+    --ink: #000000;
+    --ink-muted: rgba(0, 0, 0, 0.3);
+    --ink-caption: #4d4d4d;
+    --rule: rgba(0, 0, 0, 0.1);
+    --glass: rgba(245, 245, 245, 0.72);
+    --font: "Inter", "Helvetica Neue", Arial, system-ui, sans-serif;
+    --gap: 8px;
+    --pill-r: 14px;
+    --hero: 180px;
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: 10px;
+    letter-spacing: 0.8px;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; letter-spacing: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
+  :focus-visible { outline: 1.5px solid var(--ink); outline-offset: 2px; }
+
+  .wrap {
+    padding-inline: var(--gap);
+    padding-block: 0 var(--gap);
+    container-type: inline-size;
+    container-name: page;
+  }
+
+  /* ---------- Header ---------- */
+  .header {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 20;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--gap);
+    padding-top: var(--gap);
+    background: var(--bg);
+  }
+  .pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 30px;
+    padding: 9px 16px;
+    border-radius: var(--pill-r);
+    background: var(--pill);
+    white-space: nowrap;
+    width: 100%;
+    line-height: 1.2;
+  }
+  .brand .name { font-size: 11px; letter-spacing: 0; }
+  .chev { width: 10px; height: 8px; flex: none; transition: transform .25s ease; }
+  .chev-left { width: 8px; height: 10px; flex: none; }
+  .menu { position: relative; }
+  .menu[data-open="true"] .chev { transform: rotate(180deg); }
+  .menu .pill:hover { background: #efefef; }
+
+  .panel {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    max-height: calc(100vh - 60px);
+    overflow-y: auto;
+    padding: 16px;
+    border-radius: var(--pill-r);
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(24px) saturate(1.2);
+    backdrop-filter: blur(24px) saturate(1.2);
+    opacity: 0;
+    transform: translateY(-4px);
+    pointer-events: none;
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  .menu[data-open="true"] .panel { opacity: 1; transform: none; pointer-events: auto; }
+
+  .label { color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.8px; }
+  .divider { height: 1px; background: var(--rule); }
+  .rows { display: grid; gap: 8px; letter-spacing: 0.2px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .row > * { min-width: 0; }
+
+  .worklist { display: grid; gap: 0; }
+  .worklist .head { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); }
+  .worklist a {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    padding-block: 7px; letter-spacing: 0.2px;
+    border-bottom: 1px solid transparent;
+    transition: opacity .15s ease;
+  }
+  .worklist:hover a { opacity: .45; }
+  .worklist a:hover, .worklist a:focus-visible { opacity: 1; }
+
+  .about { display: grid; gap: 28px; }
+  .about section { display: grid; gap: 8px; }
+  .about p { margin: 0; line-height: 1.5; letter-spacing: 0.2px; max-width: 60ch; }
+  .about ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; letter-spacing: 0.2px; }
+
+  /* ---------- Shared column math ---------- */
+  .hero-space { height: var(--hero); }
+  .main { --col: calc((100cqw - 3 * var(--gap)) / 4); }
+  .tile, .media {
+    position: relative;
+    overflow: hidden;
+    background: var(--tile);
+    border-radius: calc(var(--col) * 0.2057);
+    max-width: 100%;
+  }
+  .tile img, .media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  /* ---------- Home grid ---------- */
+  .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); }
+  .tile { aspect-ratio: 350 / 452; }
+  .tile.logo { display: grid; place-items: center; }
+  .tile.logo img { width: 57.7%; height: auto; object-fit: contain; }
+  .tile .cap {
+    position: absolute; left: 0; right: 0; bottom: 5.3%;
+    text-align: center; color: var(--ink-caption);
+    opacity: 0; transform: translateY(4px);
+    transition: opacity .25s ease, transform .25s ease;
+    pointer-events: none;
+  }
+  .tile.on-dark .cap { color: #ffae81; }
+  .tile.on-photo .cap { color: #ffffff; }
+  a.tile img { transition: transform .6s cubic-bezier(.2, .7, .2, 1); }
+  a.tile:hover img, a.tile:focus-visible img { transform: scale(1.025); }
+  .tile:hover .cap, .tile:focus-visible .cap { opacity: 1; transform: none; }
+  @media (hover: none) { .tile .cap { opacity: 1; transform: none; } }
+
+  /* ---------- Project page ---------- */
+  .project { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); align-items: start; }
+  .info {
+    position: sticky;
+    top: calc(env(safe-area-inset-top, 0px) + 46px);
+    display: grid; gap: var(--gap); min-width: 0;
+  }
+  .card { background: var(--pill); border-radius: var(--pill-r); padding: 16px; display: grid; gap: 36px; }
+  .card section { display: grid; gap: 8px; }
+  .card p { margin: 0; letter-spacing: 0.2px; line-height: 1.5; max-width: 72ch; }
+  .back:hover { background: #efefef; }
+  .todo { color: var(--ink-muted); }
+
+  .media-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); min-width: 0; }
+  .media { aspect-ratio: 350 / 452; }
+  .media.wide { grid-column: 1 / -1; }
+  .media.wide.r480 { aspect-ratio: 708 / 480; }
+  .media.wide.r452 { aspect-ratio: 708 / 452; }
+  .media.wide.r398 { aspect-ratio: 708 / 398; }
+
+  .next { margin-top: var(--gap); }
+
+  /* view switching */
+  .view { animation: fade .35s ease both; }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ---------- Narrow screens ---------- */
+  @media (max-width: 900px) {
+    :root { --hero: 96px; }
+    .main { --col: calc((100cqw - var(--gap)) / 2); }
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .project { grid-template-columns: minmax(0, 1fr); }
+    .info { position: static; }
+  }
+  @media (max-width: 640px) {
+    :root { --hero: 48px; }
+    .header { grid-template-columns: 1fr 1fr; }
+    .header .brand { grid-column: 1 / -1; }
+    .menu .panel { position: fixed; left: var(--gap); right: var(--gap); top: 88px; max-height: calc(100vh - 100px); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="header">
+    <a class="pill brand" href="#" aria-label="Eldar Partush, home">
+      <span class="name">Eldar Partush</span>
+      <span>Visual designer</span>
+    </a>
+
+    <div class="menu" id="menu-work" data-open="false">
+      <button class="pill" id="btn-work" aria-expanded="false" aria-controls="panel-work">
+        <span>Work</span>
+        <img class="chev" src="img/chevron.svg" alt="" width="10" height="8">
+      </button>
+      <div class="panel" id="panel-work" role="region" aria-label="All work">
+        <div class="worklist" id="worklist">
+          <div class="head label"><span>Title</span><span>Categories</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu" id="menu-about" data-open="false">
+      <button class="pill" id="btn-about" aria-expanded="false" aria-controls="panel-about">
+        <span>About</span>
+        <img class="chev" src="img/chevron.svg" alt="" width="10" height="8">
+      </button>
+      <div class="panel" id="panel-about" role="region" aria-label="About">
+        <div class="about">
+          <section>
+            <span class="label">Information</span>
+            <div class="divider"></div>
+            <p>Eldar Partush is a visual designer working across branding, campaigns, events and motion.</p>
+          </section>
+          <section>
+            <span class="label">Services</span>
+            <div class="divider"></div>
+            <ul>
+              <li>Brand identity</li>
+              <li>Campaign design</li>
+              <li>Event branding</li>
+              <li>Web design</li>
+              <li>Motion</li>
+            </ul>
+          </section>
+          <section>
+            <span class="label">Selected clients</span>
+            <div class="divider"></div>
+            <ul>
+              <li>Base44</li>
+              <li>Wix</li>
+            </ul>
+          </section>
+          <section>
+            <span class="label">Contact</span>
+            <div class="divider"></div>
+            <ul>
+              <li>Mail</li>
+              <li>Instagram</li>
+              <li>LinkedIn</li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="hero-space" aria-hidden="true"></div>
+
+  <main class="main" id="app"></main>
+</div>
+
+<script>
+  // Everything editable lives here: tiles on the home grid and the project pages they open.
+  const PROJECTS = {
+    base44: {
+      title: "Base44 rebranding",
+      client: "Base44",
+      categories: "Branding, Visual identity",
+      year: "2026",
+      description: null,
+      credits: [["Creative Direction", null], ["Visual Production", null]],
+      media: [
+        { src: "img/base44-01.webp", wide: "r480", alt: "Base44 logo" },
+        { src: "img/base44-02.webp", alt: "Logo construction grid" },
+        { src: "img/base44-03.webp", alt: "Colour palette: orange, blue, off-white, black, green" },
+        { src: "img/base44-04.webp", alt: "Blue brand symbol on a poster layout" },
+        { src: "img/base44-05.webp", alt: "Brand voice words on orange" },
+        { src: "img/base44-06.webp", alt: "Builders campaign with the brand symbol" },
+        { src: "img/base44-07.webp", alt: "Symbol pattern in blue" }
+      ]
+    },
+    beshushu: {
+      title: "Beshushu Decades",
+      client: "Wix",
+      categories: "Event, Visual identity",
+      year: "2026",
+      description: null,
+      credits: [["Creative Direction", null], ["Visual Production", null]],
+      media: [
+        { src: "img/beshushu-01.webp", wide: "r480", alt: "Beshushu Decades ribbons" },
+        { src: "img/beshushu-02.webp", alt: "Poster being hung on a wall" },
+        { src: "img/beshushu-03.webp", alt: "Event stage with the Beshushu screen" },
+        { src: "img/beshushu-04.webp", alt: "Campus screen with the ribbons" },
+        { src: null, alt: "" }
+      ]
+    },
+    keter: {
+      title: "Keter Club",
+      client: "Keter",
+      categories: "Video, Art direction",
+      year: "2026",
+      description: null,
+      credits: [["Creative Direction", null], ["Visual Production", null]],
+      media: [
+        { src: "img/keter-01.webp", wide: "r480", alt: "Keter Club film" },
+        { src: "img/keter-02.webp", alt: "Stacked plastic chairs with the Keter Club logo" },
+        { src: "img/keter-03.webp", alt: "Archive film still" },
+        { src: "img/keter-04.webp", wide: "r452", alt: "End credits over a white chair" }
+      ]
+    },
+    pride: {
+      title: "Pride Month",
+      client: "Wix",
+      categories: "Campaign, Event",
+      year: "2026",
+      description: null,
+      credits: [["Creative Direction", null], ["Visual Production", null]],
+      media: [
+        { src: "img/pride-01.webp", wide: "r480", alt: "Pride Month key visual, 25 May to 25 June" },
+        { src: "img/pride-02.webp", alt: "Dana International poster on a column" },
+        { src: "img/pride-03.webp", alt: "Pride fan held up against the sky" },
+        { src: "img/pride-04.webp", alt: "Pride Month screen in the office lobby" },
+        { src: "img/pride-05.webp", alt: "Pixel hearts" },
+        { src: "img/pride-06.webp", wide: "r398", alt: "Pride Month event schedule" }
+      ]
+    }
+  };
+
+  // Home grid, in Figma order. `project` links the tile to a page; tiles without one are not clickable yet.
+  const TILES = [
+    { project: "base44", logo: "img/base44-logo.svg", caption: "Base44 rebranding" },
+    { placeholder: true },
+    { src: "img/tile-base44-career.webp", caption: "Base44 career site" },
+    { src: "img/tile-kins.webp", caption: "Kins", tone: "on-photo" },
+    { project: "beshushu", src: "img/tile-beshushu.webp", caption: "Beshushu Decades", tone: "on-dark" },
+    { project: "keter", src: "img/tile-keter.webp", caption: "Keter Club" },
+    { placeholder: true },
+    { project: "pride", src: "img/tile-pride.webp", caption: "Pride Month" }
+  ];
+
+  const ORDER = Object.keys(PROJECTS);
+  const app = document.getElementById("app");
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const val = v => v == null ? '<span class="todo">To add</span>' : esc(v);
+
+  function renderHome() {
+    const tiles = TILES.map((t, i) => {
+      if (t.placeholder) return `<div class="tile" aria-hidden="true"></div>`;
+      const eager = i < 4 ? "eager" : "lazy";
+      const inner = t.logo
+        ? `<img src="${t.logo}" alt="" width="202" height="42">`
+        : `<img src="${t.src}" alt="" width="700" height="904" loading="${eager}" decoding="async">`;
+      const cls = `tile${t.logo ? " logo" : ""}${t.tone ? " " + t.tone : ""}`;
+      const cap = `<span class="cap">${esc(t.caption)}</span>`;
+      return t.project
+        ? `<a class="${cls}" href="#${t.project}" aria-label="${esc(t.caption)}">${inner}${cap}</a>`
+        : `<div class="${cls}" tabindex="0" aria-label="${esc(t.caption)}">${inner}${cap}</div>`;
+    }).join("");
+    app.innerHTML = `<div class="view grid">${tiles}</div>`;
+  }
+
+  function renderProject(key) {
+    const p = PROJECTS[key];
+    const next = ORDER[(ORDER.indexOf(key) + 1) % ORDER.length];
+    const media = p.media.map((m, i) => {
+      const cls = `media${m.wide ? " wide " + m.wide : ""}`;
+      if (!m.src) return `<div class="${cls}" aria-hidden="true"></div>`;
+      const w = m.wide ? 1416 : 700;
+      return `<figure class="${cls}" style="margin:0"><img src="${m.src}" alt="${esc(m.alt)}" width="${w}" height="904" loading="${i < 3 ? "eager" : "lazy"}" decoding="async"></figure>`;
+    }).join("");
+    const credits = p.credits.map(([k, v]) => `<div class="row"><span>${esc(k)}:</span><span>${val(v)}</span></div>`).join("");
+    app.innerHTML = `
+      <div class="view project">
+        <aside class="info">
+          <div class="pill"><span>${esc(p.title)}</span></div>
+          <a class="pill back" href="#"><span>Back to Overview</span><img class="chev-left" src="img/chevron-2.svg" alt="" width="8" height="10"></a>
+          <div class="card">
+            <section>
+              <span class="label">Information</span>
+              <div class="divider"></div>
+              <div class="rows">
+                <div class="row"><span>Client:</span><span>${val(p.client)}</span></div>
+                <div class="row"><span>Categories:</span><span>${val(p.categories)}</span></div>
+                <div class="row"><span>Year:</span><span>${val(p.year)}</span></div>
+              </div>
+            </section>
+            <section>
+              <span class="label">Description</span>
+              <div class="divider"></div>
+              <p>${p.description == null ? '<span class="todo">Project description goes here. Describe the brief, your role, and the final outcome in two or three sentences.</span>' : esc(p.description)}</p>
+            </section>
+            <section>
+              <span class="label">Credits</span>
+              <div class="divider"></div>
+              <div class="rows">${credits}</div>
+            </section>
+          </div>
+          <a class="pill back next" href="#${next}"><span>Next: ${esc(PROJECTS[next].title)}</span><img class="chev-left" src="img/chevron-2.svg" alt="" width="8" height="10" style="transform:rotate(180deg)"></a>
+        </aside>
+        <div class="media-grid">${media}</div>
+      </div>`;
+  }
+
+  function route() {
+    const key = location.hash.slice(1);
+    closeMenus();
+    if (PROJECTS[key]) { renderProject(key); document.title = `${PROJECTS[key].title} · Eldar Partush`; }
+    else { renderHome(); document.title = "Eldar Partush"; }
+    window.scrollTo(0, 0);
+  }
+
+  // Work list in the dropdown
+  document.getElementById("worklist").insertAdjacentHTML("beforeend",
+    ORDER.map(k => `<a href="#${k}"><span>${esc(PROJECTS[k].title)}</span><span>${esc(PROJECTS[k].categories)}</span></a>`).join(""));
+
+  // Dropdowns
+  const menus = [["menu-work", "btn-work"], ["menu-about", "btn-about"]].map(([m, b]) => ({ m: document.getElementById(m), b: document.getElementById(b) }));
+  function setOpen(x, open) { x.m.dataset.open = String(open); x.b.setAttribute("aria-expanded", String(open)); }
+  function closeMenus() { menus.forEach(x => setOpen(x, false)); }
+  menus.forEach(x => x.b.addEventListener("click", e => {
+    e.stopPropagation();
+    const open = x.m.dataset.open !== "true";
+    closeMenus();
+    setOpen(x, open);
+  }));
+  document.addEventListener("click", e => { if (!e.target.closest(".menu")) closeMenus(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeMenus(); });
+
+  window.addEventListener("hashchange", route);
+  route();
+</script>
+</body>
+</html>
