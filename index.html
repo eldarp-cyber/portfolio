@@ -170,6 +170,14 @@
   .media.wide.r480 { aspect-ratio: 708 / 480; }
   .media.wide.r452 { aspect-ratio: 708 / 452; }
   .media.wide.r398 { aspect-ratio: 708 / 398; }
+  .media.embed { background: #ebebe9; clip-path: inset(0 round calc(var(--col) * 0.2057)); }
+  .media.embed iframe { position: absolute; top: 0; left: 0; border: 0; background: #fff; transform-origin: 0 0; }
+  .media.embed-fallback { display: block; }
+  .embed-cta {
+    position: absolute; left: 50%; bottom: 7%; transform: translateX(-50%);
+    padding: 9px 16px; border-radius: var(--pill-r); background: var(--glass);
+    -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); white-space: nowrap;
+  }
 
   .next { margin-top: var(--gap); }
 
@@ -184,6 +192,9 @@
     .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .project { grid-template-columns: minmax(0, 1fr); }
     .info { position: static; }
+  }
+  @media (max-width: 640px) {
+    .media.wide.embed { aspect-ratio: 3 / 4; }
   }
   @media (max-width: 640px) {
     :root { --hero: 48px; }
@@ -268,6 +279,9 @@
 </div>
 
 <script>
+  // Live sites can be framed only on the GitHub Pages build; build.py flips this to true there.
+  const CAN_EMBED = true;
+
   // Everything editable lives here: tiles on the home grid and the project pages they open.
   const PROJECTS = {
     base44: {
@@ -285,6 +299,18 @@
         { src: "img/base44-05.webp", alt: "Brand voice words on orange" },
         { src: "img/base44-06.webp", alt: "Builders campaign with the brand symbol" },
         { src: "img/base44-07.webp", alt: "Symbol pattern in blue" }
+      ]
+    },
+    careers: {
+      title: "Base44 career site",
+      client: "Base44",
+      categories: "Web design",
+      year: "2026",
+      link: "https://base44-new-hp-edge-pr-28949.base44.workers.dev/careers",
+      description: null,
+      credits: [["Creative Direction", null], ["Visual Production", null]],
+      media: [
+        { embed: "https://base44-new-hp-edge-pr-28949.base44.workers.dev/careers", fallback: "img/tile-base44-career.webp", wide: "r480", alt: "Base44 career site, live" }
       ]
     },
     beshushu: {
@@ -338,7 +364,7 @@
   const TILES = [
     { project: "base44", logo: "img/base44-logo.svg", caption: "Base44 rebranding" },
     { placeholder: true },
-    { src: "img/tile-base44-career.webp", caption: "Base44 career site" },
+    { project: "careers", src: "img/tile-base44-career.webp", caption: "Base44 career site" },
     { src: "img/tile-kins.webp", caption: "Kins", tone: "on-photo" },
     { project: "beshushu", src: "img/tile-beshushu.webp", caption: "Beshushu Decades", tone: "on-dark" },
     { project: "keter", src: "img/tile-keter.webp", caption: "Keter Club" },
@@ -372,6 +398,8 @@
     const next = ORDER[(ORDER.indexOf(key) + 1) % ORDER.length];
     const media = p.media.map((m, i) => {
       const cls = `media${m.wide ? " wide " + m.wide : ""}`;
+      if (m.embed && CAN_EMBED) return `<div class="${cls} embed"><iframe src="${m.embed}" title="${esc(m.alt)}" referrerpolicy="no-referrer"></iframe></div>`;
+      if (m.embed) return `<a class="${cls} embed-fallback" href="${m.embed}" target="_blank" rel="noopener"><img src="${m.fallback}" alt="${esc(m.alt)}" width="700" height="904"><span class="embed-cta">Open live site ↗</span></a>`;
       if (!m.src) return `<div class="${cls}" aria-hidden="true"></div>`;
       const w = m.wide ? 1416 : 700;
       return `<figure class="${cls}" style="margin:0"><img src="${m.src}" alt="${esc(m.alt)}" width="${w}" height="904" loading="${i < 3 ? "eager" : "lazy"}" decoding="async"></figure>`;
@@ -382,6 +410,7 @@
         <aside class="info">
           <div class="pill"><span>${esc(p.title)}</span></div>
           <a class="pill back" href="#"><span>Back to Overview</span><img class="chev-left" src="img/chevron-2.svg" alt="" width="8" height="10"></a>
+          ${p.link ? `<a class="pill back" href="${p.link}" target="_blank" rel="noopener"><span>View live site</span><span aria-hidden="true">↗</span></a>` : ""}
           <div class="card">
             <section>
               <span class="label">Information</span>
@@ -407,6 +436,23 @@
         </aside>
         <div class="media-grid">${media}</div>
       </div>`;
+    app.querySelectorAll(".media.embed").forEach(fitEmbed);
+  }
+
+  // Render the framed site at a real viewport width, then scale it down to fit the panel.
+  function fitEmbed(box) {
+    const frame = box.querySelector("iframe");
+    const fit = () => {
+      const w = box.clientWidth, h = box.clientHeight;
+      if (!w) return;
+      const vw = w < 520 ? 390 : 1440;
+      const s = w / vw;
+      frame.style.width = vw + "px";
+      frame.style.height = Math.ceil(h / s) + "px";
+      frame.style.transform = `scale(${s})`;
+    };
+    fit();
+    new ResizeObserver(fit).observe(box);
   }
 
   function route() {
