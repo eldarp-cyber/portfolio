@@ -132,7 +132,7 @@
     border-radius: calc(var(--col) * 0.2057);
     max-width: 100%;
   }
-  .tile img, .media img, .media video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .tile img, .tile video, .media img, .media video { display: block; width: 100%; height: 100%; object-fit: cover; }
 
   /* ---------- Home grid ---------- */
   .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); }
@@ -148,8 +148,8 @@
   }
   .tile.on-dark .cap { color: #ffae81; }
   .tile.on-photo .cap { color: #ffffff; }
-  a.tile img { transition: transform .6s cubic-bezier(.2, .7, .2, 1); }
-  a.tile:hover img, a.tile:focus-visible img { transform: scale(1.025); }
+  a.tile img, a.tile video { transition: transform .6s cubic-bezier(.2, .7, .2, 1); }
+  a.tile:hover img, a.tile:focus-visible img, a.tile:hover video, a.tile:focus-visible video { transform: scale(1.025); }
   .tile:hover .cap, .tile:focus-visible .cap { opacity: 1; transform: none; }
   @media (hover: none) { .tile .cap { opacity: 1; transform: none; } }
 
@@ -296,10 +296,10 @@
       year: "2026",
       description: "I was part of the team that built the Base44 brand, working mainly on the process of creating its icons.",
       media: [
-        { src: "img/base44-01.webp", wide: "r480", alt: "Base44 logo" },
+        { src: "img/base44-01.webp", mp4: "video/base44-01.mp4", wide: "r480", alt: "Base44 logo" },
         { src: "img/base44-02.webp", alt: "Logo construction grid" },
         { src: "img/base44-03.webp", alt: "Colour palette: orange, blue, off-white, black, green" },
-        { src: "img/base44-04.webp", alt: "Blue brand symbol on a poster layout" },
+        { src: "img/base44-04.webp", mp4: "video/base44-04.mp4", alt: "Blue brand symbol on a poster layout" },
         { src: "img/base44-05.webp", alt: "Brand voice words on orange" },
         { src: "img/base44-06.webp", alt: "Builders campaign with the brand symbol" },
         { src: "img/base44-07.webp", alt: "Symbol pattern in blue" }
@@ -326,7 +326,7 @@
         { src: "img/beshushu-01.webp", wide: "r480", alt: "Beshushu Decades ribbons" },
         { src: "img/beshushu-02.webp", alt: "Poster being hung on a wall" },
         { src: "img/beshushu-03.webp", alt: "Event stage with the Beshushu screen" },
-        { src: "img/beshushu-04.webp", alt: "Campus screen with the ribbons" },
+        { src: "img/beshushu-04.webp", mp4: "video/beshushu-04.mp4", alt: "Campus screen with the ribbons" },
         { src: null, alt: "" }
       ]
     },
@@ -354,7 +354,7 @@
         { src: "img/pride-02.webp", alt: "Dana International poster on a column" },
         { src: "img/pride-03.webp", alt: "Pride fan held up against the sky" },
         { src: "img/pride-04.webp", mp4: "video/pride-04.mp4", alt: "Pride Month screen in the office lobby" },
-        { src: "img/pride-05.webp", alt: "Pixel hearts" },
+        { src: "img/pride-05.webp", mp4: "video/pride-05.mp4", alt: "Pixel hearts" },
         { src: "img/pride-06.webp", mp4: "video/pride-06.mp4", wide: "r398", alt: "Pride Month event schedule" }
       ]
     }
@@ -369,7 +369,7 @@
     { project: "beshushu", src: "img/tile-beshushu.webp", caption: "Beshushu Decades", tone: "on-dark" },
     { project: "keter", src: "img/tile-keter.webp", caption: "Keter Club" },
     { placeholder: true },
-    { project: "pride", src: "img/tile-pride.webp", caption: "Pride Month" }
+    { project: "pride", src: "img/tile-pride.webp", mp4: "video/pride-05.mp4", caption: "Pride Month" }
   ];
 
   const ORDER = Object.keys(PROJECTS);
@@ -384,7 +384,9 @@
       const eager = i < 4 ? "eager" : "lazy";
       const inner = t.logo
         ? `<img src="${t.logo}" alt="" width="202" height="42">`
-        : `<img src="${t.src}" alt="" width="700" height="904" loading="${eager}" decoding="async">`;
+        : t.mp4
+          ? `<video src="${t.mp4}" poster="${t.src}" ${REDUCED_MOTION ? "" : "autoplay"} muted loop playsinline preload="metadata" aria-hidden="true"></video>`
+          : `<img src="${t.src}" alt="" width="700" height="904" loading="${eager}" decoding="async">`;
       const cls = `tile${t.logo ? " logo" : ""}${t.tone ? " " + t.tone : ""}`;
       const cap = `<span class="cap">${esc(t.caption)}</span>`;
       return t.project
