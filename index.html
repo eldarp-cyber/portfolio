@@ -172,6 +172,9 @@
   .media.wide.r480 { aspect-ratio: 708 / 480; }
   .media.wide.r452 { aspect-ratio: 708 / 452; }
   .media.wide.r398 { aspect-ratio: 708 / 398; }
+  .media.wide.r331 { aspect-ratio: 708 / 331; }
+  /* Portrait film: half the media column, 9:16 like the Figma frame (354×629) */
+  .media.tall { grid-column: 1; aspect-ratio: 354 / 629; background: #000; }
   .media.embed { background: #ebebe9; clip-path: inset(0 round calc(var(--col) * 0.2057)); }
   .media.embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #fff; }
   /* Player placement taken from the Keter frame in Figma: 647×363 at (31, 58) inside 708×480 */
@@ -293,7 +296,7 @@
       title: "Base44 Rebrand",
       client: "Base44",
       categories: "Brand identity, Iconography",
-      year: "2026",
+      year: "2025",
       description: "As part of the team behind the new Base44 brand, I focused on the icon system: shaping the family of symbols that became a core part of the identity, from early exploration to the final set.",
       media: [
         { src: "img/base44-01.webp", mp4: "video/base44-01.mp4", wide: "r480", alt: "Base44 logo" },
@@ -301,8 +304,24 @@
         { src: "img/base44-03.webp", alt: "Colour palette: orange, blue, off-white, black, green" },
         { src: "img/base44-04.webp", mp4: "video/base44-04.mp4", alt: "Blue brand symbol on a poster layout" },
         { src: "img/base44-05.webp", alt: "Brand voice words on orange" },
-        { src: "img/base44-07.webp", alt: "Symbol pattern in blue" },
-        { src: "img/base44-06.webp", mp4: "video/base44-06.mp4", alt: "Builders campaign with the brand symbol" }
+        { src: "img/base44-06.webp", mp4: "video/base44-06.mp4", alt: "Builders campaign with the brand symbol" },
+        { src: "img/base44-07.webp", alt: "Symbol pattern in blue" }
+      ]
+    },
+    pride: {
+      title: "Pride Month",
+      client: "Wix",
+      categories: "Campaign, Event branding",
+      year: "2025",
+      description: "I created the visual language for Pride Month at Wix and carried it across a wide range of touchpoints, from large-format screens and merchandise to communications for the events held on campus.",
+      media: [
+        { src: "img/pride-01.webp", mp4: "video/pride-01.mp4", wide: "r480", alt: "Pride Month key visual, 25 May to 25 June" },
+        { src: "img/pride-02.webp", alt: "Dana International poster on a column" },
+        { src: "img/pride-03.webp", alt: "Pride fan held up against the sky" },
+        { src: "img/pride-04.webp", mp4: "video/pride-04.mp4", alt: "Pride Month screen in the office lobby" },
+        { src: "img/pride-arch.webp", alt: "Striped rainbow arch installation" },
+        { src: "img/pride-poster.webp", alt: "Pride Month events poster on a wall" },
+        { src: "img/pride-05.webp", mp4: "video/pride-05.mp4", alt: "Pixel hearts" }
       ]
     },
     careers: {
@@ -316,12 +335,27 @@
         { src: null, wide: "r480", alt: "" }
       ]
     },
+    ai: {
+      title: "AI Creations",
+      client: null,
+      categories: "AI imagery, Motion",
+      year: null,
+      description: null,
+      media: [
+        { src: "img/ai-01.webp", mp4: "video/ai-01.mp4", wide: "r480", alt: "Hiker crossing a snowy ridge" },
+        { src: "img/ai-02.webp", alt: "Figure in a pink balaclava, Seasons Opening Event" },
+        { src: "img/ai-03.webp", mp4: "video/ai-03.mp4", alt: "Two people in pastel knitwear" },
+        { src: "img/ai-04.webp", alt: "Felted doll with a flower and a tomato" },
+        { src: "img/ai-05.webp", mp4: "video/tile-kins.mp4", alt: "Kins 2026 collection" },
+        { src: "img/ai-01.webp", mp4: "video/ai-01.mp4", wide: "r480", alt: "Hiker crossing a snowy ridge" }
+      ]
+    },
     beshushu: {
       title: "Beshushu Decades",
       client: "Wix",
       categories: "Event branding",
-      year: "2026",
-      description: null,
+      year: "2025",
+      description: "Beshushu Decades was a week-long event at Wix, with a secret performance by a different artist every evening. I led the full graphic identity of the event, building a visual language around the decade each night was tied to, driven by a play of revealing and concealing that runs through the graphics.",
       media: [
         { src: "img/beshushu-01.webp", mp4: "video/beshushu-01.mp4", wide: "r480", alt: "Beshushu Decades ribbons" },
         { src: "img/beshushu-02.webp", alt: "Poster being hung on a wall" },
@@ -332,10 +366,10 @@
     },
     keter: {
       title: "Keter Club",
-      client: "Keter",
-      categories: "Video, Art direction",
-      year: "2026",
-      description: null,
+      client: "Shenkar, student project",
+      categories: "Short film, Art direction",
+      year: "2022",
+      description: "A short film made as a student project at Shenkar, built around the iconic Keter plastic chair and woven together from family and archival footage.",
       media: [
         { embed: "https://player.vimeo.com/video/848519919?title=0&byline=0&portrait=0&dnt=1", video: true, fallback: "img/keter-01.webp", wide: "r480", alt: "Keter Club film" },
         { src: "img/keter-02.webp", alt: "Stacked plastic chairs with the Keter Club logo" },
@@ -343,36 +377,47 @@
         { src: "img/keter-04.webp", wide: "r452", alt: "End credits over a white chair" }
       ]
     },
-    pride: {
-      title: "Pride Month",
-      client: "Wix",
-      categories: "Campaign, Event branding",
-      year: "2026",
-      description: "I created the visual language for Pride Month at Wix and carried it across a wide range of touchpoints, from large-format screens and merchandise to communications for the events held on campus.",
+    poems: {
+      title: "Poems for Sensitive Boys",
+      client: "Shenkar, final project",
+      categories: "Animation, Short film",
+      year: "2023",
+      description: "An animated short film based on poems by Tzur Gueta, created as my final project in the Visual Communication program at Shenkar.",
       media: [
-        { src: "img/pride-01.webp", mp4: "video/pride-01.mp4", wide: "r480", alt: "Pride Month key visual, 25 May to 25 June" },
-        { src: "img/pride-02.webp", alt: "Dana International poster on a column" },
-        { src: "img/pride-03.webp", alt: "Pride fan held up against the sky" },
-        { src: "img/pride-04.webp", mp4: "video/pride-04.mp4", alt: "Pride Month screen in the office lobby" },
-        { src: "img/pride-05.webp", mp4: "video/pride-05.mp4", alt: "Pixel hearts" },
-        { src: "img/pride-06.webp", mp4: "video/pride-06.mp4", wide: "r398", alt: "Pride Month event schedule" }
+        { src: "img/film-01.webp", mp4: "video/film-01.mp4", tall: true, controls: true, alt: "Poems for Sensitive Boys, animated short film" }
+      ]
+    },
+    graphics: {
+      title: "Graphic Design",
+      client: null,
+      categories: "Print, Posters",
+      year: null,
+      description: null,
+      media: [
+        { src: "img/gfx-01.webp", alt: "Poster lying in the grass" },
+        { src: "img/gfx-02.webp", alt: "Happy Birthday gift box" },
+        { src: "img/gfx-03.webp", mp4: "video/gfx-03.mp4", wide: "r331", alt: "Graduates Exhibition 2023 animated posters" },
+        { src: "img/gfx-04.webp", alt: "Illustrated yellow figure" },
+        { src: "img/gfx-05.webp", alt: "Illustrated figure with pink hair" },
+        { src: "img/gfx-06.webp", alt: "Designer working on a laptop" },
+        { src: "img/gfx-07.webp", alt: "Eldar's 29th birthday invitation" }
       ]
     }
   };
 
-  // Home grid, in Figma order. `project` links the tile to a page; tiles without one are not clickable yet.
+  // Home grid, in Figma order. Each tile opens its project page.
   const TILES = [
     { project: "base44", logo: "img/base44-logo.svg", caption: "Base44 Rebrand" },
-    { placeholder: true },
+    { project: "pride", src: "img/tile-pride.webp", mp4: "video/pride-05.mp4", caption: "Pride Month" },
     { project: "careers", src: "img/tile-base44-career.webp", caption: "Base44 Careers" },
-    { src: "img/tile-kins.webp", mp4: "video/tile-kins.mp4", caption: "Kins", tone: "on-photo" },
+    { project: "ai", src: "img/tile-kins.webp", mp4: "video/tile-kins.mp4", caption: "AI Creations", tone: "on-photo" },
     { project: "beshushu", src: "img/tile-beshushu.webp", mp4: "video/tile-beshushu.mp4", caption: "Beshushu Decades", tone: "on-dark" },
     { project: "keter", src: "img/tile-keter.webp", caption: "Keter Club" },
-    { placeholder: true },
-    { project: "pride", src: "img/tile-pride.webp", mp4: "video/pride-05.mp4", caption: "Pride Month" }
+    { project: "poems", src: "img/tile-poems.webp", caption: "Poems for Sensitive Boys" },
+    { project: "graphics", src: "img/tile-grass.webp", caption: "Graphic Design", tone: "on-photo" }
   ];
 
-  const ORDER = Object.keys(PROJECTS);
+  const ORDER = TILES.map(t => t.project).filter(Boolean);
   const REDUCED_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const app = document.getElementById("app");
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -415,11 +460,13 @@
     const p = PROJECTS[key];
     const next = ORDER[(ORDER.indexOf(key) + 1) % ORDER.length];
     const media = p.media.map((m, i) => {
-      const cls = `media${m.wide ? " wide " + m.wide : ""}`;
+      const cls = `media${m.wide ? " wide " + m.wide : ""}${m.tall ? " tall" : ""}`;
       if (m.embed && CAN_EMBED) return `<div class="${cls} embed${m.video ? " video" : ""}"><iframe src="${m.embed}" title="${esc(m.alt)}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen referrerpolicy="${m.video ? "strict-origin-when-cross-origin" : "no-referrer"}"></iframe></div>`;
       if (m.embed) return `<a class="${cls} embed-fallback" href="${m.embed}" target="_blank" rel="noopener"><img src="${m.fallback}" alt="${esc(m.alt)}" width="1416" height="960"><span class="embed-cta">${m.video ? "Watch on Vimeo" : "Open live site"} ↗</span></a>`;
       if (!m.src) return `<div class="${cls}" aria-hidden="true"></div>`;
       // Silent looping clip; the Figma still is the poster until it plays (and stays put for reduced motion).
+      // A film with sound gets a player; everything else is a silent looping clip.
+      if (m.mp4 && m.controls) return `<figure class="${cls}" style="margin:0"><video src="${m.mp4}" poster="${m.src}" controls playsinline preload="metadata" aria-label="${esc(m.alt)}"></video></figure>`;
       if (m.mp4) return `<figure class="${cls}" style="margin:0"><video src="${m.mp4}" poster="${m.src}" ${REDUCED_MOTION ? "" : "autoplay"} muted loop playsinline preload="${i < 3 ? "auto" : "metadata"}" aria-label="${esc(m.alt)}"></video></figure>`;
       const w = m.wide ? 1416 : 700;
       return `<figure class="${cls}" style="margin:0"><img src="${m.src}" alt="${esc(m.alt)}" width="${w}" height="904" loading="${i < 3 ? "eager" : "lazy"}" decoding="async"></figure>`;
