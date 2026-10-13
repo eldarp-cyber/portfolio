@@ -385,7 +385,7 @@
       const inner = t.logo
         ? `<img src="${t.logo}" alt="" width="202" height="42">`
         : t.mp4
-          ? `<video src="${t.mp4}" poster="${t.src}" ${REDUCED_MOTION ? "" : "autoplay"} muted loop playsinline preload="metadata" aria-hidden="true"></video>`
+          ? `<video src="${t.mp4}" poster="${t.src}" muted loop playsinline preload="auto" aria-hidden="true"></video>`
           : `<img src="${t.src}" alt="" width="700" height="904" loading="${eager}" decoding="async">`;
       const cls = `tile${t.logo ? " logo" : ""}${t.tone ? " " + t.tone : ""}`;
       const cap = `<span class="cap">${esc(t.caption)}</span>`;
@@ -394,6 +394,21 @@
         : `<div class="${cls}" tabindex="0" aria-label="${esc(t.caption)}">${inner}${cap}</div>`;
     }).join("");
     app.innerHTML = `<div class="view grid">${tiles}</div>`;
+    app.querySelectorAll(".tile video").forEach(bindTileVideo);
+  }
+
+  // Home tiles stay still until hovered (or focused); touch screens have no hover, so they play on their own there.
+  const CAN_HOVER = window.matchMedia("(hover: hover)").matches;
+  function bindTileVideo(video) {
+    if (REDUCED_MOTION) return;
+    if (!CAN_HOVER) { video.play().catch(() => {}); return; }
+    const tile = video.closest(".tile");
+    const start = () => video.play().catch(() => {});
+    const stop = () => { video.pause(); video.currentTime = 0; };
+    tile.addEventListener("mouseenter", start);
+    tile.addEventListener("mouseleave", stop);
+    tile.addEventListener("focus", start);
+    tile.addEventListener("blur", stop);
   }
 
   function renderProject(key) {
