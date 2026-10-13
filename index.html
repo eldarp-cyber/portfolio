@@ -132,7 +132,7 @@
     border-radius: calc(var(--col) * 0.2057);
     max-width: 100%;
   }
-  .tile img, .media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .tile img, .media img, .media video { display: block; width: 100%; height: 100%; object-fit: cover; }
 
   /* ---------- Home grid ---------- */
   .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gap); }
@@ -350,12 +350,12 @@
       year: "2026",
       description: "I built the visual language for Pride Month at Wix and created a wide range of assets, from screens and merchandise to communications for events on campus.",
       media: [
-        { src: "img/pride-01.webp", wide: "r480", alt: "Pride Month key visual, 25 May to 25 June" },
+        { src: "img/pride-01.webp", mp4: "video/pride-01.mp4", wide: "r480", alt: "Pride Month key visual, 25 May to 25 June" },
         { src: "img/pride-02.webp", alt: "Dana International poster on a column" },
         { src: "img/pride-03.webp", alt: "Pride fan held up against the sky" },
-        { src: "img/pride-04.webp", alt: "Pride Month screen in the office lobby" },
+        { src: "img/pride-04.webp", mp4: "video/pride-04.mp4", alt: "Pride Month screen in the office lobby" },
         { src: "img/pride-05.webp", alt: "Pixel hearts" },
-        { src: "img/pride-06.webp", wide: "r398", alt: "Pride Month event schedule" }
+        { src: "img/pride-06.webp", mp4: "video/pride-06.mp4", wide: "r398", alt: "Pride Month event schedule" }
       ]
     }
   };
@@ -373,6 +373,7 @@
   ];
 
   const ORDER = Object.keys(PROJECTS);
+  const REDUCED_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const app = document.getElementById("app");
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const val = v => v == null ? '<span class="todo">To add</span>' : esc(v);
@@ -401,6 +402,8 @@
       if (m.embed && CAN_EMBED) return `<div class="${cls} embed${m.video ? " video" : ""}"><iframe src="${m.embed}" title="${esc(m.alt)}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen referrerpolicy="${m.video ? "strict-origin-when-cross-origin" : "no-referrer"}"></iframe></div>`;
       if (m.embed) return `<a class="${cls} embed-fallback" href="${m.embed}" target="_blank" rel="noopener"><img src="${m.fallback}" alt="${esc(m.alt)}" width="1416" height="960"><span class="embed-cta">${m.video ? "Watch on Vimeo" : "Open live site"} ↗</span></a>`;
       if (!m.src) return `<div class="${cls}" aria-hidden="true"></div>`;
+      // Silent looping clip; the Figma still is the poster until it plays (and stays put for reduced motion).
+      if (m.mp4) return `<figure class="${cls}" style="margin:0"><video src="${m.mp4}" poster="${m.src}" ${REDUCED_MOTION ? "" : "autoplay"} muted loop playsinline preload="${i < 3 ? "auto" : "metadata"}" aria-label="${esc(m.alt)}"></video></figure>`;
       const w = m.wide ? 1416 : 700;
       return `<figure class="${cls}" style="margin:0"><img src="${m.src}" alt="${esc(m.alt)}" width="${w}" height="904" loading="${i < 3 ? "eager" : "lazy"}" decoding="async"></figure>`;
     }).join("");
