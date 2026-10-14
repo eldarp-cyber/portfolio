@@ -123,9 +123,8 @@
   .about .link:hover { text-decoration-color: currentColor; }
 
   /* ---------- Shared column math ---------- */
-  .hero-space { height: var(--hero); }
-  /* On the home grid the space under the header matches the gap between tiles */
-  body[data-view="home"] .hero-space { height: var(--gap); }
+  /* The space under the header matches the gap between tiles and frames, on every page */
+  .hero-space { height: var(--gap); }
   .main { --col: calc((100cqw - 3 * var(--gap)) / 4); }
   .tile, .media {
     position: relative;
