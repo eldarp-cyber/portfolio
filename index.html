@@ -370,9 +370,9 @@
       media: [
         { src: "img/beshushu-01.webp", mp4: "video/beshushu-01.mp4", wide: "r480", alt: "Beshushu Decades ribbons" },
         { src: "img/beshushu-02.webp", alt: "Poster being hung on a wall" },
-        { src: "img/beshushu-03.webp", alt: "Event stage with the Beshushu screen" },
+        { src: "img/besh-unwrap.webp", mp4: "video/beshushu-unwrap.mp4", alt: "Unwrapping a Beshushu Decades poster" },
         { src: "img/beshushu-04.webp", mp4: "video/beshushu-04.mp4", alt: "Campus screen with the ribbons" },
-        { src: null, alt: "" }
+        { src: "img/beshushu-03.webp", alt: "Event stage with the Beshushu screen" }
       ]
     },
     keter: {
@@ -399,19 +399,19 @@
       ]
     },
     graphics: {
-      title: "Graphic Design",
-      client: null,
+      title: "Mix Graphic Design",
+      client: "Mix",
       categories: "Print, Posters",
-      year: null,
-      description: null,
+      year: "2022–2026",
+      description: false,
       media: [
         { src: "img/gfx-01.webp", alt: "Poster lying in the grass" },
         { src: "img/gfx-02.webp", alt: "Happy Birthday gift box" },
         { src: "img/gfx-03.webp", mp4: "video/gfx-03.mp4", wide: "r331", alt: "Graduates Exhibition 2023 animated posters" },
-        { src: "img/gfx-04.webp", alt: "Illustrated yellow figure" },
-        { src: "img/gfx-05.webp", alt: "Illustrated figure with pink hair" },
-        { src: "img/gfx-06.webp", alt: "Designer working on a laptop" },
-        { src: "img/gfx-07.webp", alt: "Eldar's 29th birthday invitation" }
+        { src: "img/gfx-gifts.webp", alt: "Floating striped gift boxes" },
+        { src: "img/gfx-07.webp", alt: "Eldar's 29th birthday invitation" },
+        { src: "img/gfx-superwix-blue.webp", alt: "SuperWix poster for Wix Japan, blue" },
+        { src: "img/gfx-superwix-red.webp", alt: "SuperWix poster for Wix Japan, red" }
       ]
     }
   };
@@ -425,7 +425,7 @@
     { project: "beshushu", src: "img/tile-beshushu.webp", mp4: "video/tile-beshushu.mp4", caption: "Beshushu Decades", tone: "on-dark" },
     { project: "keter", src: "img/tile-keter.webp", caption: "Keter Club" },
     { project: "poems", src: "img/tile-poems.webp", caption: "Poems for Sensitive Boys" },
-    { project: "graphics", src: "img/tile-grass.webp", caption: "Graphic Design", tone: "on-photo" }
+    { project: "graphics", src: "img/tile-grass.webp", caption: "Mix Graphic Design", tone: "on-photo" }
   ];
 
   const ORDER = TILES.map(t => t.project).filter(Boolean);
@@ -500,11 +500,12 @@
                 <div class="row"><span>Year:</span><span>${val(p.year)}</span></div>
               </div>
             </section>
+${p.description === false ? "" : `
             <section>
               <span class="label">Description</span>
               <div class="divider"></div>
               <p>${p.description == null ? '<span class="todo">Project description goes here. Describe the brief, your role, and the final outcome in two or three sentences.</span>' : esc(p.description)}</p>
-            </section>
+            </section>`}
           </div>
         </aside>
         <div class="media-grid">${media}</div>
