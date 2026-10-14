@@ -177,6 +177,8 @@
   .media.tall { grid-column: 1; aspect-ratio: 354 / 629; background: #000; }
   .media.embed { background: #ebebe9; clip-path: inset(0 round calc(var(--col) * 0.2057)); }
   .media.embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #fff; }
+  /* Live sites render at a real viewport width and are scaled down by fitEmbed() */
+  .media.embed:not(.video) iframe { inset: auto; top: 0; left: 0; transform-origin: 0 0; }
   /* Player placement taken from the Keter frame in Figma: 647×363 at (31, 58) inside 708×480 */
   .media.embed.video iframe { inset: auto; left: 4.394%; top: 12.14%; width: 91.4%; height: 75.71%; background: #000; }
   .media.embed-fallback { display: block; }
@@ -503,6 +505,27 @@
         </aside>
         <div class="media-grid">${media}</div>
       </div>`;
+    app.querySelectorAll(".media.embed:not(.video)").forEach(fitEmbed);
+  }
+
+  // Show a framed site at a real desktop (or phone) width, scaled down to fit the frame.
+  // The inner viewport is a little taller than what shows, so the site's bottom-anchored
+  // cookie banner sits below the visible edge instead of covering the content.
+  function fitEmbed(box) {
+    const frame = box.querySelector("iframe");
+    const fit = () => {
+      const w = box.clientWidth, h = box.clientHeight;
+      if (!w) return;
+      const phone = w < 520;
+      const vw = phone ? 390 : 1440;
+      const hidden = phone ? 220 : 170;
+      const s = w / vw;
+      frame.style.width = vw + "px";
+      frame.style.height = Math.ceil(h / s + hidden) + "px";
+      frame.style.transform = `scale(${s})`;
+    };
+    fit();
+    new ResizeObserver(fit).observe(box);
   }
 
   function route() {
