@@ -340,11 +340,10 @@
       media: [
         // The live site at base44.com; scroll and click through it inside the frame.
         { embed: "https://base44.com/careers", fallback: "img/tile-base44-career.webp", wide: "r480", alt: "Base44 careers site, live" },
-        // Four portrait frames, waiting for the screens from Figma.
-        { src: null, alt: "" },
-        { src: null, alt: "" },
-        { src: null, alt: "" },
-        { src: null, alt: "" }
+        { src: "img/careers-02.webp", ratio: "350 / 194", alt: "Open roles list" },
+        { src: "img/careers-03.webp", ratio: "350 / 194", alt: "In the press section" },
+        { src: "img/careers-04.webp", ratio: "350 / 211", alt: "Find us in New York, Tel Aviv, Cedar Rapids and Miami" },
+        { src: "img/careers-05.webp", ratio: "350 / 211", alt: "Behind the Base" }
       ]
     },
     ai: {
@@ -352,14 +351,14 @@
       client: "Multiple",
       categories: "AI imagery, Motion",
       year: "2025–2026",
-      description: "I specialize in Weavy and run workshops at Wix that introduce beginners to working with it. I also create with Plnty and work fluently across AI image and video generation, putting these tools to use to build campaigns and elevate projects in my day-to-day work.",
+      description: "AI has become part of my everyday toolkit. I weave image and video generation into my day-to-day design work and into campaigns, using it to push ideas further and give them a visual edge that would be hard to reach any other way. Tools like Weavy and Plnty let me move from a rough concept to a finished, moving piece in a fraction of the time. The deeper I got into it, the more I wanted to share it, and today I run Weavy workshops at Wix that help beginners take their first steps with the tool.",
       media: [
         { src: "img/ai-01.webp", mp4: "video/ai-01.mp4", wide: "r480", alt: "Hiker crossing a snowy ridge" },
-        { src: "img/ai-02.webp", alt: "Figure in a pink balaclava, Seasons Opening Event" },
-        { src: "img/ai-03.webp", mp4: "video/ai-03.mp4", alt: "Two people in pastel knitwear" },
-        { src: "img/ai-04.webp", alt: "Felted doll with a flower and a tomato" },
+        { src: "img/ai-tomato.webp", mp4: "video/ai-tomato.mp4", ratio: "350 / 370", alt: "Felted tomato, stop-motion made with Plnty" },
+        { src: "img/ai-03.webp", mp4: "video/ai-03.mp4", ratio: "350 / 370", alt: "Two people in pastel knitwear" },
         { src: "img/ai-05.webp", mp4: "video/tile-kins.mp4", alt: "Kins 2026 collection" },
-        { src: "img/ai-01.webp", mp4: "video/ai-01.mp4", wide: "r480", alt: "Hiker crossing a snowy ridge" }
+        { src: "img/ai-02.webp", alt: "Figure in a pink balaclava, Seasons Opening Event" },
+        { src: "img/ai-workshop.webp", wide: "r480", alt: "Weavy workshop at Wix" }
       ]
     },
     beshushu: {
@@ -473,15 +472,17 @@
     const next = ORDER[(ORDER.indexOf(key) + 1) % ORDER.length];
     const media = p.media.map((m, i) => {
       const cls = `media${m.wide ? " wide " + m.wide : ""}${m.tall ? " tall" : ""}`;
+      // Frames with their own proportions in Figma (e.g. 350×194) pass `ratio`.
+      const ar = m.ratio ? `aspect-ratio:${m.ratio};` : "";
       if (m.embed && CAN_EMBED) return `<div class="${cls} embed${m.video ? " video" : ""}"><iframe src="${m.embed}" title="${esc(m.alt)}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen referrerpolicy="${m.video ? "strict-origin-when-cross-origin" : "no-referrer"}"></iframe></div>`;
       if (m.embed) return `<a class="${cls} embed-fallback" href="${m.embed}" target="_blank" rel="noopener"><img src="${m.fallback}" alt="${esc(m.alt)}" width="1416" height="960"><span class="embed-cta">${m.video ? "Watch on Vimeo" : "Open live site"} ↗</span></a>`;
-      if (!m.src) return `<div class="${cls}" aria-hidden="true"></div>`;
+      if (!m.src) return `<div class="${cls}" style="${ar}" aria-hidden="true"></div>`;
       // Silent looping clip; the Figma still is the poster until it plays (and stays put for reduced motion).
       // A film with sound gets a player; everything else is a silent looping clip.
-      if (m.mp4 && m.controls) return `<figure class="${cls}" style="margin:0"><video src="${m.mp4}" poster="${m.src}" controls playsinline preload="metadata" aria-label="${esc(m.alt)}"></video></figure>`;
-      if (m.mp4) return `<figure class="${cls}" style="margin:0"><video src="${m.mp4}" poster="${m.src}" ${REDUCED_MOTION ? "" : "autoplay"} muted loop playsinline preload="${i < 3 ? "auto" : "metadata"}" aria-label="${esc(m.alt)}"></video></figure>`;
+      if (m.mp4 && m.controls) return `<figure class="${cls}" style="margin:0;${ar}"><video src="${m.mp4}" poster="${m.src}" controls playsinline preload="metadata" aria-label="${esc(m.alt)}"></video></figure>`;
+      if (m.mp4) return `<figure class="${cls}" style="margin:0;${ar}"><video src="${m.mp4}" poster="${m.src}" ${REDUCED_MOTION ? "" : "autoplay"} muted loop playsinline preload="${i < 3 ? "auto" : "metadata"}" aria-label="${esc(m.alt)}"></video></figure>`;
       const w = m.wide ? 1416 : 700;
-      return `<figure class="${cls}" style="margin:0"><img src="${m.src}" alt="${esc(m.alt)}" width="${w}" height="904" loading="${i < 3 ? "eager" : "lazy"}" decoding="async"></figure>`;
+      return `<figure class="${cls}" style="margin:0;${ar}"><img src="${m.src}" alt="${esc(m.alt)}" width="${w}" height="904" loading="${i < 3 ? "eager" : "lazy"}" decoding="async"></figure>`;
     }).join("");
     app.innerHTML = `
       <div class="view project">
