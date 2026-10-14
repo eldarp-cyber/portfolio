@@ -185,6 +185,16 @@
   /* Player placement taken from the Keter frame in Figma: 647×363 at (31, 58) inside 708×480 */
   .media.embed.video iframe { inset: auto; left: 4.394%; top: 12.14%; width: 91.4%; height: 75.71%; background: #000; }
   .media.embed-fallback { display: block; }
+  /* Click-to-play cover: the Figma still with a play pill; on click it becomes the player */
+  .media.clickplay { display: block; width: 100%; padding: 0; border: 0; cursor: pointer; font: inherit; }
+  .media.clickplay.playing { cursor: default; background: #000; }
+  .media.clickplay iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; }
+  .play-pill {
+    position: absolute; left: 50%; bottom: 7%; transform: translateX(-50%);
+    padding: 9px 16px; border-radius: var(--pill-r); background: #ffffff; color: var(--ink);
+    white-space: nowrap; transition: transform .2s ease;
+  }
+  .media.clickplay:hover .play-pill, .media.clickplay:focus-visible .play-pill { transform: translateX(-50%) scale(1.06); }
   .embed-cta {
     position: absolute; left: 50%; bottom: 7%; transform: translateX(-50%);
     padding: 9px 16px; border-radius: var(--pill-r); background: var(--glass);
@@ -370,7 +380,8 @@
       year: "2022",
       description: "A short film made as a student project at Shenkar, built around the iconic Keter plastic chair and woven together from family and archival footage.",
       media: [
-        { embed: "https://player.vimeo.com/video/848519919?title=0&byline=0&portrait=0&dnt=1", video: true, fallback: "img/keter-01.webp", wide: "r480", alt: "Keter Club film" },
+        // Cover from Figma; a click swaps in the Vimeo player and starts the film.
+        { cover: "img/keter-cover.webp", vimeo: "https://player.vimeo.com/video/848519919?title=0&byline=0&portrait=0&dnt=1", link: "https://vimeo.com/848519919", wide: "r480", alt: "Keter Club film" },
         { src: "img/keter-02.webp", alt: "Stacked plastic chairs with the Keter Club logo" },
         { src: "img/keter-03.webp", alt: "Archive film still" },
         { src: "img/keter-04.webp", wide: "r452", alt: "End credits over a white chair" }
@@ -462,6 +473,8 @@
       const cls = `media${m.wide ? " wide " + m.wide : ""}${m.tall ? " tall" : ""}`;
       // Frames with their own proportions in Figma (e.g. 350×194) pass `ratio`.
       const ar = m.ratio ? `aspect-ratio:${m.ratio};` : "";
+      if (m.cover && CAN_EMBED) return `<button type="button" class="${cls} clickplay" data-src="${m.vimeo}" aria-label="Play ${esc(m.alt)}"><img src="${m.cover}" alt="" width="1416" height="960"><span class="play-pill">▶ Play film</span></button>`;
+      if (m.cover) return `<a class="${cls} clickplay" href="${m.link}" target="_blank" rel="noopener"><img src="${m.cover}" alt="${esc(m.alt)}" width="1416" height="960"><span class="play-pill">Watch on Vimeo ↗</span></a>`;
       if (m.embed && CAN_EMBED) return `<div class="${cls} embed${m.video ? " video" : ""}"><iframe src="${m.embed}" title="${esc(m.alt)}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen referrerpolicy="${m.video ? "strict-origin-when-cross-origin" : "no-referrer"}"></iframe></div>`;
       if (m.embed) return `<a class="${cls} embed-fallback" href="${m.embed}" target="_blank" rel="noopener"><img src="${m.fallback}" alt="${esc(m.alt)}" width="1416" height="960"><span class="embed-cta">${m.video ? "Watch on Vimeo" : "Open live site"} ↗</span></a>`;
       if (!m.src) return `<div class="${cls}" style="${ar}" aria-hidden="true"></div>`;
@@ -500,6 +513,10 @@ ${p.description === false ? "" : `
         <div class="media-grid">${media}</div>
       </div>`;
     app.querySelectorAll(".media.embed:not(.video)").forEach(fitEmbed);
+    app.querySelectorAll("button.clickplay").forEach(btn => btn.addEventListener("click", () => {
+      btn.classList.add("playing");
+      btn.innerHTML = `<iframe src="${btn.dataset.src}&autoplay=1" title="${btn.getAttribute("aria-label")}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+    }, { once: true }));
   }
 
   // Show a framed site at a real desktop (or phone) width, scaled down to fit the frame.
