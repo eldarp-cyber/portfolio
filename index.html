@@ -188,6 +188,7 @@
     -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); white-space: nowrap;
   }
 
+  /* Next-project link sits under the whole project, after the media */
   .next { margin-top: var(--gap); }
 
   /* view switching */
@@ -348,7 +349,7 @@
       client: null,
       categories: "AI imagery, Motion",
       year: null,
-      description: null,
+      description: "I specialize in Weavy and run workshops at Wix that introduce beginners to working with it. I also create with Plnty and work fluently across AI image and video generation, putting these tools to use to build campaigns and elevate projects in my day-to-day work.",
       media: [
         { src: "img/ai-01.webp", mp4: "video/ai-01.mp4", wide: "r480", alt: "Hiker crossing a snowy ridge" },
         { src: "img/ai-02.webp", alt: "Figure in a pink balaclava, Seasons Opening Event" },
@@ -501,10 +502,10 @@
               <p>${p.description == null ? '<span class="todo">Project description goes here. Describe the brief, your role, and the final outcome in two or three sentences.</span>' : esc(p.description)}</p>
             </section>
           </div>
-          <a class="pill back next" href="#${next}"><span>Next: ${esc(PROJECTS[next].title)}</span><img class="chev-left" src="img/chevron-2.svg" alt="" width="8" height="10" style="transform:rotate(180deg)"></a>
         </aside>
         <div class="media-grid">${media}</div>
-      </div>`;
+      </div>
+      <a class="pill back next view" href="#${next}"><span>Next: ${esc(PROJECTS[next].title)}</span><img class="chev-left" src="img/chevron-2.svg" alt="" width="8" height="10" style="transform:rotate(180deg)"></a>`;
     app.querySelectorAll(".media.embed:not(.video)").forEach(fitEmbed);
   }
 
