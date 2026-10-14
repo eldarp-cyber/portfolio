@@ -192,7 +192,6 @@
     -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); white-space: nowrap;
   }
 
-  /* Next-project link sits under the whole project, after the media */
   .next { margin-top: var(--gap); }
 
   /* view switching */
@@ -501,10 +500,10 @@ ${p.description === false ? "" : `
               <p>${p.description == null ? '<span class="todo">Project description goes here. Describe the brief, your role, and the final outcome in two or three sentences.</span>' : esc(p.description)}</p>
             </section>`}
           </div>
+          <a class="pill back next" href="#${next}"><span>Next: ${esc(PROJECTS[next].title)}</span><img class="chev-left" src="img/chevron-2.svg" alt="" width="8" height="10" style="transform:rotate(180deg)"></a>
         </aside>
         <div class="media-grid">${media}</div>
-      </div>
-      <a class="pill back next view" href="#${next}"><span>Next: ${esc(PROJECTS[next].title)}</span><img class="chev-left" src="img/chevron-2.svg" alt="" width="8" height="10" style="transform:rotate(180deg)"></a>`;
+      </div>`;
     app.querySelectorAll(".media.embed:not(.video)").forEach(fitEmbed);
   }
 
