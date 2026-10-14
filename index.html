@@ -124,6 +124,8 @@
 
   /* ---------- Shared column math ---------- */
   .hero-space { height: var(--hero); }
+  /* On the home grid the space under the header matches the gap between tiles */
+  body[data-view="home"] .hero-space { height: var(--gap); }
   .main { --col: calc((100cqw - 3 * var(--gap)) / 4); }
   .tile, .media {
     position: relative;
@@ -264,14 +266,6 @@
               <li>Web design</li>
               <li>Motion design</li>
               <li>AI-driven design</li>
-            </ul>
-          </section>
-          <section>
-            <span class="label">Selected clients</span>
-            <div class="divider"></div>
-            <ul>
-              <li>Base44</li>
-              <li>Wix</li>
             </ul>
           </section>
           <section>
@@ -537,6 +531,7 @@ ${p.description === false ? "" : `
   function route() {
     const key = location.hash.slice(1);
     closeMenus();
+    document.body.dataset.view = PROJECTS[key] ? "project" : "home";
     if (PROJECTS[key]) { renderProject(key); document.title = `${PROJECTS[key].title} · Eldar Partush`; }
     else { renderHome(); document.title = "Eldar Partush"; }
     window.scrollTo(0, 0);
