@@ -139,19 +139,21 @@
   .tile { aspect-ratio: 350 / 452; }
   .tile.logo { display: grid; place-items: center; }
   .tile.logo img { width: 57.7%; height: auto; object-fit: contain; }
+  /* Hover caption: black text on a white pill, readable over any image */
   .tile .cap {
-    position: absolute; left: 0; right: 0; bottom: 5.3%;
-    text-align: center; color: var(--ink-caption);
-    opacity: 0; transform: translateY(4px);
+    position: absolute; left: 50%; bottom: 5.3%;
+    max-width: calc(100% - 32px); width: max-content;
+    padding: 7px 14px; border-radius: var(--pill-r);
+    background: #ffffff; color: var(--ink);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    opacity: 0; transform: translate(-50%, 4px);
     transition: opacity .25s ease, transform .25s ease;
     pointer-events: none;
   }
-  .tile.on-dark .cap { color: #ffae81; }
-  .tile.on-photo .cap { color: #ffffff; }
   a.tile img, a.tile video { transition: transform .6s cubic-bezier(.2, .7, .2, 1); }
   a.tile:hover img, a.tile:focus-visible img, a.tile:hover video, a.tile:focus-visible video { transform: scale(1.025); }
-  .tile:hover .cap, .tile:focus-visible .cap { opacity: 1; transform: none; }
-  @media (hover: none) { .tile .cap { opacity: 1; transform: none; } }
+  .tile:hover .cap, .tile:focus-visible .cap { opacity: 1; transform: translate(-50%, 0); }
+  @media (hover: none) { .tile .cap { opacity: 1; transform: translate(-50%, 0); } }
 
   /* ---------- Project page ---------- */
   .project { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gap); align-items: start; }
@@ -249,6 +251,7 @@
             <span class="label">Information</span>
             <div class="divider"></div>
             <p>I'm a visual designer working across brand identity, campaigns, events and motion.</p>
+            <p>Curiosity is what drives me. I get a kick out of new tools and pick them up fast, which is how AI found its way into the heart of how I work. In my designs I go for playfulness, vivid color and precision: work that feels fun at first glance and holds up when you look closer.</p>
             <p>I hold a B.Des in Visual Communication from Shenkar. For the past three years I've been at Wix, where I started as a product designer on Wix Studio and today work as a visual designer on the Design Dev team.</p>
           </section>
           <section>
@@ -299,7 +302,7 @@
       title: "Base44 Rebrand",
       client: "Base44",
       categories: "Brand identity, Iconography",
-      year: "2025",
+      year: "2026",
       description: "As part of the team behind the new Base44 brand, I focused on the icon system: shaping the family of symbols that became a core part of the identity, from early exploration to the final set.",
       media: [
         { src: "img/base44-01.webp", mp4: "video/base44-01.mp4", wide: "r480", alt: "Base44 logo" },
